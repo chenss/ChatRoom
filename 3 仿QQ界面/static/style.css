@@ -1,0 +1,97 @@
+#div1 {
+	width:80%;
+	height:80%;
+	background-color:#939;
+	overflow:auto;
+}
+
+.chatBox_controlPanel {
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    width: 80%;
+    overflow: hidden;
+        overflow-x: hidden;
+        overflow-y: hidden;
+    background: none repeat scroll 0% 0% rgb(224, 239, 246);
+        background-color: rgb(224, 239, 246);
+        background-image: none;
+        background-repeat: repeat;
+        background-attachment: scroll;
+        background-position: 0% 0%;
+        background-clip: border-box;
+        background-origin: padding-box;
+        background-size: auto auto;
+    border-top: 1px solid rgb(205, 229, 241);
+        border-top-width: 1px;
+        border-top-style: solid;
+        border-top-color: rgb(205, 229, 241);
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.chatBox_sendMsgButton {
+    float: right;
+    width: 64px;
+    height: 22px;
+    line-height: 20px;
+    margin: 5px 0px 4px;
+    background: url(http://0.web.qstatic.com/webqqpic/pubapps/0/50/images/sprite.png) no-repeat scroll 0px -534px transparent;
+    overflow: hidden;
+    text-align: center;
+    display: block;
+}
+
+.chatBox_sendMsgButton:hover {
+    background: url(http://0.web.qstatic.com/webqqpic/pubapps/0/50/images/sprite.png) no-repeat scroll 0px -492px transparent;
+        background-color: transparent;
+        background-image: url(http://0.web.qstatic.com/webqqpic/pubapps/0/50/images/sprite.png);
+        background-repeat: no-repeat;
+        background-attachment: scroll;
+        background-position: 0px -492px;
+        background-clip: border-box;
+        background-origin: padding-box;
+        background-size: auto auto;
+}
+
+.chatBox_sendOptionButton {
+    float: right;
+    margin: 5px 8px 4px 0px;
+        margin-top: 5px;
+        margin-right-value: 8px;
+        margin-bottom: 4px;
+        margin-left-value: 0px;
+        margin-left-ltr-source: physical;
+        margin-left-rtl-source: physical;
+        margin-right-ltr-source: physical;
+        margin-right-rtl-source: physical;
+    width: 19px;
+    height: 22px;
+    line-height: 20px;
+    background: url(http://0.web.qstatic.com/webqqpic/pubapps/0/50/images/sprite.png) no-repeat scroll 0px -618px transparent;
+        background-color: transparent;
+        background-image: url(http://0.web.qstatic.com/webqqpic/pubapps/0/50/images/sprite.png);
+        background-repeat: no-repeat;
+        background-attachment: scroll;
+        background-position: 0px -618px;
+        background-clip: border-box;
+        background-origin: padding-box;
+        background-size: auto auto;
+    overflow: hidden;
+        overflow-x: hidden;
+        overflow-y: hidden;
+    text-align: center;
+    display: inline;
+}
+
+.chatBox_sendOptionButton:hover {
+    background: url(http://0.web.qstatic.com/webqqpic/pubapps/0/50/images/sprite.png) no-repeat scroll 0px -576px transparent;
+        background-color: transparent;
+        background-image: url(http://0.web.qstatic.com/webqqpic/pubapps/0/50/images/sprite.png);
+        background-repeat: no-repeat;
+        background-attachment: scroll;
+        background-position: 0px -576px;
+        background-clip: border-box;
+        background-origin: padding-box;
+        background-size: auto auto;
+}

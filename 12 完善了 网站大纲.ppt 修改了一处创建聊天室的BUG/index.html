@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block script %}
+
+{% endblock %}
+
+
+
+{% block main %}
+	<div id="room_list">
+	{% for room in rooms %}
+		<a id="every_room" href="/room?room_name={{ room.name }}">{{ room.name }}</a>
+	{% endfor %}
+	</div>
+{% endblock %}

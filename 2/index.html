@@ -1,0 +1,115 @@
+<html>
+	<head>
+		<title>chatroom</title>
+		<script language="JavaScript" type="text/javascript">
+
+			window.onload = function() {
+				ajax('GET', '/', null, 'addChild', 'fnFaild')
+			}
+
+			setInterval('abc()', 5000)
+
+			function abc() {
+				ajax('GET', '/getchats', null, 'addChild', 'fnFaild')	//参数加引号
+				//alert('setInterval')
+			}
+
+			// 创建XMLHTTPRequest对象
+			function createXMLHttpRequest() {
+				if(window.ActiveXObject){ 	// 判断是否支持ActiveX控件
+					return new ActiveObject('Microsoft.XMLHTTP') 	// 通过实例化ActiveXObject的一个新实例来创建XMLHTTPRequest对象
+					//alert('createXMLHTTPRequest 2')
+				}
+				else { 	// 判断是否把XMLHTTPRequest实现为一个本地javascript对象
+					//alert('XmlHttpRequest3333')
+					return new XMLHttpRequest() 	// 创建XMLHTTPRequest的一个实例（本地javascript对象）
+				}
+				//alert('createXMLHTTPRequest')
+			}
+
+
+			function ajax(type, url, data, fnSucc, fnFaild) {
+				//alert('ajax')
+				var request = createXMLHttpRequest()
+				//alert('createXMLHttpRequest1234')
+				request.open(type, url, true)
+				//alert('open XmlHttpRequest')
+				if(type == 'POST') {
+					request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+				}
+				request.send(data)
+				//alert('send XmlHttpRequest')
+				request.onreadystatechange = function() {
+					if(request.readyState == 4) {
+						if(request.status == 200) {
+							//alert('fnSucc')
+							//alert(request.responseText)
+							addChild(request.responseText)   /////////////////////////////
+							//alert('fnSucc responseText')
+						}
+						else {
+							if(fnFaild)
+								fnFaild(request.status)
+							alert('fnFaild responseText')
+						}
+					}
+				}
+			}
+
+
+			function addChild(responseText) {
+				//alert(responseText)
+				var msg_list = document.getElementById('msg_list')
+				//alert("before eval")
+				//mlist = responseText.split(', ')
+				var obj = eval ("(" + responseText + ")");		//obj undefine!!!!!!!
+				//alert(responseText)
+				//alert(obj)
+				for(var i = 0; i < obj.length; i++) {
+					oli = document.createElement('li')
+
+					oli.innerHTML = '<b>' + obj[i].user + '</b> ' + obj[i].time + ':<br/>' + obj[i].message
+
+					
+					msg_list.appendChild(oli)
+					//alert('addChild')			
+				}
+				scrollToBottom()
+				//alert('scrollToBottom')
+			}
+
+			function scrollToBottom() {
+				var odiv = document.getElementById('div1');
+				odiv.scrollTop = msg_list.scrollHeight;
+			}
+
+			function send() {
+				//alert('AAAAAAAA')
+				var data = document.getElementById('txt')
+				//alert('send')
+				ajax('POST', '/getchats', 'data=' + encodeURI(data.value), 'addChild', 'sendFaild')
+				                                    //ajax('GET', '/getchats', null, 'addChild', 'fnFaild')
+				//alert('POST')
+				data.value = ""
+				//alert('clear textarea')
+			}
+
+			function sendFaild(status) {
+				alert(status)
+			}
+		</script>
+	</head>
+	<body>
+		<b>Welcome, {{ user }} <a href={{ log_in_out_url }}> {{ link_text }} </a></b>
+		<div id="div1" style="width:80%; height:80%; background-color:#ccc; overflow:auto;">
+			<ul id="msg_list">
+				{% for msg in msgs %}
+					<li><b>{{msg.user}} </b>{{msg.time}}: <br/>{{msg.message}}
+				{% endfor %}
+			</ul>
+			<script type="text/javascript">scrollToBottom()</script>
+		</div>
+		<input id="txt" name="txt" type="text" size="100" value=""/>
+		<input type="button" value="Send" onclick="send()"/>
+	</body>
+</html>

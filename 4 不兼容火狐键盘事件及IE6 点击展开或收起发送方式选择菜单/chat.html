@@ -1,0 +1,83 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>{{title}}</title>
+	<link type="text/css" rel="stylesheet" href="static/style.css" />
+	<script src="static/ajax.js"></script>
+	<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>-->
+	<script language="JavaScript" type="text/javascript">
+	
+		//不兼容firefox
+		function checkOnKeyDown() {
+			if(event.keyCode == 13) {		//Enter提交信息
+				send()	
+			}
+	//				//暂未实现选择发送方式功能
+	//				if(oEvent.ctrlKey && (oEvent.keyCode == 13)) {		//Ctrl+Enter提交信息
+	//					send()	
+	//				}
+		}
+		//不兼容firefox
+		function display() {
+			document.getElementById('sendOptionPanel').style.display = 'block'
+			event.cancelBubble = true;
+		}
+		
+		document.onclick = function() {
+			document.getElementById('sendOptionPanel').style.display = 'none'
+		}
+	
+		setInterval(function(){
+			ajax('GET', '/getchats', null, 'addChild', 'fnFaild')	//参数加引号
+		}, 5000)
+	
+		function addChild(responseText) {
+			var msg_list = document.getElementById('msg_list')
+			var obj = eval ("(" + responseText + ")")
+			
+			for(var i = 0; i < obj.length; i++) {
+				oli = document.createElement('li')
+				oli.innerHTML = '<b>' + obj[i].user + '</b> ' + obj[i].time + ':<br/>' + obj[i].message
+				msg_list.appendChild(oli)
+			}
+			
+			scrollToBottom()
+		}
+	
+		function scrollToBottom() {
+			var odiv = document.getElementById('div1');
+			odiv.scrollTop = msg_list.scrollHeight;
+		}
+	
+		function send() {
+			var data = document.getElementById('txt')
+			ajax('POST', '/getchats', 'data=' + encodeURI(data.value), 'addChild', 'sendFaild')
+			data.value = ""
+		}
+	
+		function sendFaild(status) {
+			alert(status)
+		}
+	</script>
+</head>
+<body>
+<b>Welcome, {{ user }} <a href={{ log_in_out_url }}> {{ link_text }} </a></b>
+	<div id="div1">
+		<ul id="msg_list">
+			{% for msg in msgs %}
+			<li><b>{{msg.user}} </b>{{msg.time}}: <br/>{{msg.message}}
+			{% endfor %}
+		</ul>
+		<script type="text/javascript">scrollToBottom()</script> 
+	</div>
+	<div class="chatBox_controlPanel">
+		<input id="txt" name="txt" type="text" value="" style="width:100%;" onKeyDown="checkOnKeyDown()"/>
+		<a href="#" class="chatBox_sendOptionButton" title="修改发送方式" onClick="display()"></a>
+		<a href="#" class="chatBox_sendMsgButton" title="发送" onClick="send()">发 送</a> 
+	</div>
+	<div id="sendOptionPanel" class="sendOptionPanel">
+		<a id="sendOption_enterKey" class="simpleMenuItem simpleMenuItemSelected" href="#"><div class="selectedIcon"></div>按Enter键发送</a>
+		<a id="sendOption_ctrlEnterKey" class="simpleMenuItem" href="#"><div class="selectedIcon"></div>按Ctrl+Enter键发送</a> 
+	</div>
+</body>
+</html>

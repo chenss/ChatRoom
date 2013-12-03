@@ -1,0 +1,88 @@
+<html>
+<head>
+		<title>{{title}}</title>
+		<link type="text/css" rel="stylesheet" href="static/style.css" />
+		<script src="static/ajax.js"></script>
+		<script language="JavaScript" type="text/javascript">
+		
+		//Enter提交信息
+		window.onload = function() {					
+			oTxt = document.getElementById('txt')
+			sendButton = document.getElementsByClassName('chatBox_sendMsgButton')
+			
+			oTxt.onkeydown = function(ev) {
+				var oEvent = ev || event
+				
+				if(oEvent.keyCode == 13) {
+					send()	
+				}
+			}
+			
+			sendButton.onclick = function() {
+				send()
+			}
+		}
+		
+		
+/*		//Ctrl+Enter提交信息
+		window.onload = function() {					
+			oTxt = document.getElementById('txt')
+			oTxt.onkeydown = function(ev) {
+				var oEvent = ev || event
+				
+				if(oEvent.ctrlKey && (oEvent.keyCode == 13)) {
+					send()	
+				}
+			}
+		}*/
+
+			setInterval(function(){
+				ajax('GET', '/getchats', null, 'addChild', 'fnFaild')	//参数加引号
+			}, 5000)
+
+			function addChild(responseText) {
+				var msg_list = document.getElementById('msg_list')
+				var obj = eval ("(" + responseText + ")")
+				
+				for(var i = 0; i < obj.length; i++) {
+					oli = document.createElement('li')
+					oli.innerHTML = '<b>' + obj[i].user + '</b> ' + obj[i].time + ':<br/>' + obj[i].message
+					msg_list.appendChild(oli)
+				}
+				
+				scrollToBottom()
+			}
+
+			function scrollToBottom() {
+				var odiv = document.getElementById('div1');
+				odiv.scrollTop = msg_list.scrollHeight;
+			}
+
+	
+			function send() {
+				var data = document.getElementById('txt')
+				ajax('POST', '/getchats', 'data=' + encodeURI(data.value), 'addChild', 'sendFaild')
+				data.value = ""
+			}
+
+			function sendFaild(status) {
+				alert(status)
+			}
+		</script>
+</head>
+	<body>
+		<b>Welcome, {{ user }} <a href={{ log_in_out_url }}> {{ link_text }} </a></b>
+		<div id="div1">
+			<ul id="msg_list">
+				{% for msg in msgs %}
+					<li><b>{{msg.user}} </b>{{msg.time}}: <br/>{{msg.message}}
+				{% endfor %}
+			</ul>
+			<script type="text/javascript">scrollToBottom()</script>
+		</div>
+		<div class="chatBox_controlPanel">
+		<input id="txt" name="txt" type="text" size="100" value=""/>
+		<a href="#" class="chatBox_sendOptionButton" title="修改发送方式"></a><a href="#" class="chatBox_sendMsgButton" title="发送"> Send </a>
+		</div>
+	</body>
+</html>

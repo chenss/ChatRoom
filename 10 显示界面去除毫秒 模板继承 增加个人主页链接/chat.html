@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+
+{% block script %}
+	<link type="text/css" rel="stylesheet" href="static/style.css" />
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+	<script language="JavaScript" type="text/javascript">
+			
+		var last_message_time = '1970-01-01 00:00:00.000000'	//全局时间变量
+		
+		$(document).ready(function(event) {
+			
+			init()
+				
+			$('#txt').keydown(function(event) {		//Enter提交信息
+				if(event.which == 13 && $('#sendOption_enterKey').hasClass('simpleMenuItemSelected')) {
+					send()
+				}
+				
+				if(event.ctrlKey && (event.which == 13) && $('#sendOption_ctrlEnterKey').hasClass('simpleMenuItemSelected')) {		//Ctrl+Enter提交信息
+					send()
+				}
+			})
+			
+			//点击‘发送’按钮提交信息
+			$('#sendMsgButton').click(function() {		
+				send()	
+			})	
+			
+			//点击按钮出现‘选择发送方式’选项
+			$('#sendOptionButton').click(function(event) {		
+				$('#sendOptionPanel').css('display', 'block')
+				event.stopPropagation()		//取消冒泡
+			})
+			
+			//点击页面其它地方关闭‘选择发送方式’选项
+			$(document).click(function() {
+				$('#sendOptionPanel').css('display', 'none')	
+			})
+			
+			//'按Enter键发送'显示为选中状态
+			$('#sendOption_enterKey').click(function() {
+				$(this).addClass('simpleMenuItemSelected')
+				$('#sendOption_ctrlEnterKey').removeClass('simpleMenuItemSelected')
+				$('#txt').focus()
+			})
+			
+			//'按Ctrl+Enter键发送'显示为选中状态
+			$('#sendOption_ctrlEnterKey').click(function() {
+				$(this).addClass('simpleMenuItemSelected')
+				$('#sendOption_enterKey').removeClass('simpleMenuItemSelected')
+				$('#txt').focus()
+			})			
+			
+
+		})
+		
+		function init() {
+			
+			//第一次从服务器获取聊天记录，与直接html文件相比，这样渲染次数更多，但数据格式及处理方法与之后更统一
+			get()
+
+			$('#txt').focus()
+
+			//定时从服务器获取聊天记录
+			setInterval(function(){
+				get()
+			}, 3000)
+		}
+		
+		function get() {
+			$.ajax({
+				type:'GET',
+				url:'/getchats',
+				data:{'time': last_message_time}, 
+				success: function(responseText) {
+					addChild(responseText)
+				},
+				error: function(ObjectXMLHttpRequest, textStatus, errorThrown) {
+							  //XMLHttpRequest对象,    错误信息,   （可选）捕获的异常对象
+					alert('An error occurred!' + (errorThrown ? errorThrown : (ObjectXMLHttpRequest.status + textStatus)))
+				},
+			})					
+		}
+		
+		//发送聊天信息到服务器，同时从服务器获得聊天记录
+		function send() {		
+			var data = $('#txt')
+			if($.trim(data.val()) != '') {
+				$.ajax({
+					type:'POST', 
+					url:'/getchats', 
+					data:{'data':data.val(), 'time': last_message_time}, 
+					success: function(responseText) {
+						addChild(resonseText)	
+					},
+					error: function(xhr, textStatus, errorThrown) {
+						alert('An error occurred!' + (errorThrown ? errorThrown : (xhr.status + textStatus)))
+					},
+				})
+				data.val('')	//清空文本框
+			}
+			else {
+				//提示不能为空
+			}
+		}
+		
+		function addChild(responseText) {
+			var msg_list = $('#msg_list')
+			var obj = eval ("(" + responseText + ")")		//解析JSON数据
+			for(var i = 0; i < obj.length; i++) {
+				user = obj[i].user.split('@')
+				time = obj[i].time.split('.')
+				oli = $('<li />').html('<span id="user">' + user[0] + '</span><span id="time"> ' + time[0] + '</span><br/><span id="message">' + obj[i].message + '</span>')
+				msg_list.append(oli)
+				last_message_time = obj[i].time				// String
+			}
+			
+			scrollToBottom()
+		}
+		
+		//将'div1'滚动到最底端
+		function scrollToBottom() {
+			var odiv = $('#div1')
+			var height = $('#msg_list').height()
+			odiv.scrollTop(height)
+		}
+
+	</script>
+{% endblock %}
+
+
+{% block main %}
+	<div id="div1">
+		<ul id="msg_list">
+
+		</ul>
+	</div>
+	
+	<div id="controlPanel" class="chatBox_controlPanel">
+		<input id="txt" name="txt" type="text" value="" style="width:100%;"/>
+		<a href="#" id="sendOptionButton" class="chatBox_sendOptionButton" title="修改发送方式"></a>
+		<a href="#" id="sendMsgButton" class="chatBox_sendMsgButton" title="发送">发 送</a> 
+	</div>
+	
+	<div id="sendOptionPanel" class="sendOptionPanel">
+		<a id="sendOption_enterKey" class="simpleMenuItem simpleMenuItemSelected" href="#"><div class="selectedIcon"></div>按Enter键发送</a>
+		<a id="sendOption_ctrlEnterKey" class="simpleMenuItem" href="#"><div class="selectedIcon"></div>按Ctrl+Enter键发送</a> 
+	</div>
+{% endblock %}

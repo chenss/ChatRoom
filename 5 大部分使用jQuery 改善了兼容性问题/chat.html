@@ -1,0 +1,89 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>{{title}}</title>
+	<link type="text/css" rel="stylesheet" href="static/style.css" />
+	<script src="static/ajax.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+	<script language="JavaScript" type="text/javascript">
+		
+		$(document).ready(function(event) {
+			
+			$('#txt').keydown(function(event) {		//回车提交信息
+				if(event.which == 13) {
+					send()
+				}
+				
+//				if(event.ctrlKey && (event.which == 13)) {		//Ctrl+回车提交信息
+//					send()
+//				}
+			})
+			
+			$('#sendMsgButton').click(function() {		//点击‘发送’按钮提交信息
+				send()	
+			})	
+			
+			$('#sendOptionButton').click(function(event) {		//点击按钮出现‘选择发送方式’选项
+				$('#sendOptionPanel').css('display', 'block')
+				event.stopPropagation()
+			})
+			
+			$(document).click(function() {			//点击页面关闭‘选择发送方式’选项
+				$('#sendOptionPanel').css('display', 'none')	
+			})
+
+		})
+		
+		setInterval(function(){
+			ajax('GET', '/getchats', null, 'addChild', 'fnFaild')	//参数加引号
+		}, 5000)
+	
+		function send() {
+			var data = document.getElementById('txt')
+			ajax('POST', '/getchats', 'data=' + encodeURI(data.value), 'addChild', 'sendFaild')
+			data.value = ""
+		}
+		
+		function sendFaild(status) {
+			alert(status)
+		}
+		
+		function addChild(responseText) {
+			var msg_list = $('#msg_list')
+			var obj = eval ("(" + responseText + ")")
+			for(var i = 0; i < obj.length; i++) {
+				oli = $('<li />').html('<b>' + obj[i].user + '</b> ' + obj[i].time + ':<br/>' + obj[i].message)
+				msg_list.append(oli)
+			}
+			
+			scrollToBottom()
+		}
+		
+		function scrollToBottom() {
+			var odiv = document.getElementById('div1');
+			odiv.scrollTop = msg_list.scrollHeight;
+		}
+
+	</script>
+</head>
+<body>
+<b>Welcome, {{ user }} <a href={{ log_in_out_url }}> {{ link_text }} </a></b>
+	<div id="div1">
+		<ul id="msg_list">
+			{% for msg in msgs %}
+			<li><b>{{msg.user}} </b>{{msg.time}}: <br/>{{msg.message}}
+			{% endfor %}
+		</ul>
+		<script type="text/javascript">scrollToBottom()</script> 
+	</div>
+	<div id="controlPanel" class="chatBox_controlPanel">
+		<input id="txt" name="txt" type="text" value="" style="width:100%;"/>
+		<a href="#" id="sendOptionButton" class="chatBox_sendOptionButton" title="修改发送方式"></a>
+		<a href="#" id="sendMsgButton" class="chatBox_sendMsgButton" title="发送">发 送</a> 
+	</div>
+	<div id="sendOptionPanel" class="sendOptionPanel">
+		<a id="sendOption_enterKey" class="simpleMenuItem simpleMenuItemSelected" href="#"><div class="selectedIcon"></div>按Enter键发送</a>
+		<a id="sendOption_ctrlEnterKey" class="simpleMenuItem" href="#"><div class="selectedIcon"></div>按Ctrl+Enter键发送</a> 
+	</div>
+</body>
+</html>

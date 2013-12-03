@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block script %}
+
+{% endblock %}
+
+
+
+{% block main %}
+	<div id="room_list">
+	{% for room in rooms %}
+		<a id="every_room" href="/room?room_name={{ room.name }}">{{ room.name }}</a>
+	{% endfor %}
+	</div>
+	<br /><br /><br /><br />创建聊天室（测试用）<br />
+	<form id="form1" name="form1" method="post" action="http://localhost:10080/newroom">
+		<input type="text" name="name" id="textfield" />
+		<input type="text" name="introduce" id="textfield2" />
+		<input name="button" type="submit" id="button" value="提交" />
+	</form>
+{% endblock %}

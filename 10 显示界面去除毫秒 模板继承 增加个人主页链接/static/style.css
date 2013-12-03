@@ -1,0 +1,173 @@
+a {
+	text-decoration:none;
+}
+
+a:link, a:visited {color:#39F;}
+
+#div1 {
+	position:absolute;
+	top:50px;
+	left:0px;
+	width:80%;
+	height:80%;
+	background-color:rgb(224, 239, 246);
+	overflow:auto;
+}
+
+#user {
+	font-size:smaller;
+	font-weight:bold;
+}
+
+#time {
+	font-size:x-small;
+}
+
+.chatBox_controlPanel {
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    width: 80%;
+    overflow: hidden;
+        overflow-x: hidden;
+        overflow-y: hidden;
+    background: none repeat scroll 0% 0% rgb(224, 239, 246);
+        background-color: rgb(224, 239, 246);
+        background-image: none;
+        background-repeat: repeat;
+        background-attachment: scroll;
+        background-position: 0% 0%;
+        background-clip: border-box;
+        background-origin: padding-box;
+        background-size: auto auto;
+    border-top: 1px solid rgb(205, 229, 241);
+        border-top-width: 1px;
+        border-top-style: solid;
+        border-top-color: rgb(205, 229, 241);
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.chatBox_sendMsgButton {
+    float: right;
+    width: 64px;
+    height: 22px;
+    line-height: 20px;
+    margin: 5px 0px 4px;
+    background: url(http://0.web.qstatic.com/webqqpic/pubapps/0/50/images/sprite.png) no-repeat scroll 0px -534px transparent;
+    overflow: hidden;
+    text-align: center;
+    display: block;
+}
+
+.chatBox_sendMsgButton:hover {
+    background: url(http://0.web.qstatic.com/webqqpic/pubapps/0/50/images/sprite.png) no-repeat scroll 0px -492px transparent;
+        background-color: transparent;
+        background-image: url(http://0.web.qstatic.com/webqqpic/pubapps/0/50/images/sprite.png);
+        background-repeat: no-repeat;
+        background-attachment: scroll;
+        background-position: 0px -492px;
+        background-clip: border-box;
+        background-origin: padding-box;
+        background-size: auto auto;
+}
+
+.chatBox_sendOptionButton {
+    float: right;
+    margin: 5px 8px 4px 0px;
+        margin-top: 5px;
+        margin-right-value: 8px;
+        margin-bottom: 4px;
+        margin-left-value: 0px;
+        margin-left-ltr-source: physical;
+        margin-left-rtl-source: physical;
+        margin-right-ltr-source: physical;
+        margin-right-rtl-source: physical;
+    width: 19px;
+    height: 22px;
+    line-height: 20px;
+    background: url(http://0.web.qstatic.com/webqqpic/pubapps/0/50/images/sprite.png) no-repeat scroll 0px -618px transparent;
+        background-color: transparent;
+        background-image: url(http://0.web.qstatic.com/webqqpic/pubapps/0/50/images/sprite.png);
+        background-repeat: no-repeat;
+        background-attachment: scroll;
+        background-position: 0px -618px;
+        background-clip: border-box;
+        background-origin: padding-box;
+        background-size: auto auto;
+    overflow: hidden;
+        overflow-x: hidden;
+        overflow-y: hidden;
+    text-align: center;
+    display: inline;
+}
+
+.chatBox_sendOptionButton:hover {
+    background: url(http://0.web.qstatic.com/webqqpic/pubapps/0/50/images/sprite.png) no-repeat scroll 0px -576px transparent;
+        background-color: transparent;
+        background-image: url(http://0.web.qstatic.com/webqqpic/pubapps/0/50/images/sprite.png);
+        background-repeat: no-repeat;
+        background-attachment: scroll;
+        background-position: 0px -576px;
+        background-clip: border-box;
+        background-origin: padding-box;
+        background-size: auto auto;
+}
+
+.sendOptionPanel {
+	display:none;
+	background-color:rgb(224, 239, 246);
+	font-size:12px;
+	position:absolute;
+	left:80%;
+	bottom:4px;
+	z-index:3;
+}
+
+a.simpleMenuItem {
+    display: block;
+    padding: 0px 10px 0px 5px;
+        padding-top: 0px;
+        padding-right-value: 10px;
+        padding-bottom: 0px;
+        padding-left-value: 5px;
+        padding-left-ltr-source: physical;
+        padding-left-rtl-source: physical;
+        padding-right-ltr-source: physical;
+        padding-right-rtl-source: physical;
+    height: 24px;
+    overflow: hidden;
+        overflow-x: hidden;
+        overflow-y: hidden;
+    color: black;
+    line-height: 24px;
+}
+
+.simpleMenuItemSelected .selectedIcon {
+    background: url(http://0.web.qstatic.com/webqqpic/pubapps/0/50/images/eqq_sprite.gif?t=20111011001) no-repeat scroll 5px -33px transparent;
+        background-color: transparent;
+        background-image: url(http://0.web.qstatic.com/webqqpic/pubapps/0/50/images/eqq_sprite.gif?t=20111011001);
+        background-repeat: no-repeat;
+        background-attachment: scroll;
+        background-position: 5px -33px;
+        background-clip: border-box;
+        background-origin: padding-box;
+        background-size: auto auto;
+}
+.selectedIcon {
+    float: left;
+    margin: 4px 4px 4px 0px;
+        margin-top: 4px;
+        margin-right-value: 4px;
+        margin-bottom: 4px;
+        margin-left-value: 0px;
+        margin-left-ltr-source: physical;
+        margin-left-rtl-source: physical;
+        margin-right-ltr-source: physical;
+        margin-right-rtl-source: physical;
+    width: 16px;
+    height: 16px;
+    overflow: hidden;
+        overflow-x: hidden;
+        overflow-y: hidden;
+}

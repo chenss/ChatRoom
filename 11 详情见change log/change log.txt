@@ -1,0 +1,5 @@
+初步实现index.html 
+后台创建聊天室功能（前端可用test new room.html测试） 
+添加Users和Rooms数据库 
+
+问题：数据库有待规范
